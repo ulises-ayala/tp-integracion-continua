@@ -3,70 +3,108 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Generador de Setlist</title>
+    <title>Minimoog v4 Preset Generator</title>
     <style>
         body {
-            background-color: #121212;
-            color: #ffffff;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #222;
+            background-image: linear-gradient(#111 2px, transparent 2px), linear-gradient(90deg, #111 2px, transparent 2px);
+            background-size: 30px 30px;
+            color: #eee;
+            font-family: 'Courier New', Courier, monospace;
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
             height: 100vh;
             margin: 0;
-            text-align: center;
         }
-        .container {
-            background-color: #1e1e1e;
+        .synth-panel {
+            background-color: #1a1a1a;
+            border: 12px solid #5c3a21; /* Borde de madera */
+            border-radius: 8px;
             padding: 40px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.8), inset 0 0 20px rgba(0,0,0,0.5);
             max-width: 600px;
+            width: 90%;
         }
         h1 {
-            color: #00ff88;
-            margin-bottom: 10px;
+            color: #d4af37; /* Dorado clásico */
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border-bottom: 2px solid #333;
+            padding-bottom: 15px;
+            margin-top: 0;
         }
-        p {
-            font-size: 1.2rem;
-            color: #bbbbbb;
-        }
-        .cancion {
-            font-size: 1.8rem;
-            font-weight: bold;
-            margin: 30px 0;
-            color: #ff0055;
-            background: #2a2a2a;
+        .screen {
+            background-color: #0a110a;
+            border: 4px solid #000;
+            border-radius: 5px;
             padding: 20px;
-            border-radius: 8px;
+            margin: 25px 0;
+            box-shadow: inset 0 0 10px #000;
+        }
+        .screen h2 {
+            color: #55ff55;
+            margin: 0 0 15px 0;
+            font-size: 1.5rem;
+        }
+        .parameter {
+            margin-bottom: 10px;
+            color: #88ff88;
+            font-size: 1.1rem;
+        }
+        .label {
+            color: #55aa55;
+            font-weight: bold;
+            display: inline-block;
+            width: 140px;
+        }
+        .note {
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px dashed #224422;
+            color: #66cc66;
+            font-style: italic;
+            font-size: 0.9rem;
+        }
+        .button-container {
+            text-align: center;
         }
         button {
-            background-color: #00ff88;
-            color: #121212;
-            border: none;
-            padding: 15px 30px;
-            font-size: 1.1rem;
+            background-color: #d4af37;
+            color: #111;
+            border: 2px solid #8e7322;
+            padding: 12px 25px;
+            font-size: 1.2rem;
             font-weight: bold;
-            border-radius: 8px;
+            font-family: inherit;
             cursor: pointer;
-            transition: background-color 0.3s ease;
+            border-radius: 4px;
+            text-transform: uppercase;
+            box-shadow: 0 4px 0 #8e7322, 0 5px 10px rgba(0,0,0,0.5);
+            transition: all 0.1s;
         }
-        button:hover {
-            background-color: #00cc6a;
+        button:active {
+            box-shadow: 0 0 0 #8e7322, 0 2px 5px rgba(0,0,0,0.5);
+            transform: translateY(4px);
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Generador de Setlist 🎸</h1>
-        <p>¿No sabés qué tocar en el próximo ensayo? El entorno de IC lo decide por vos:</p>
+    <div class="synth-panel">
+        <h1>Minimoog v4 Auto-Patch</h1>
         
-        <div class="cancion">
-            {{ cancion }}
+        <div class="screen">
+            <h2>{{ preset.nombre }}</h2>
+            <div class="parameter"><span class="label">OSCILADORES:</span> {{ preset.osciladores }}</div>
+            <div class="parameter"><span class="label">FILTRO:</span> {{ preset.filtro }}</div>
+            <div class="parameter"><span class="label">MODULACIÓN:</span> {{ preset.modulacion }}</div>
+            <div class="note">/// {{ preset.nota }}</div>
         </div>
         
-        <button onclick="window.location.reload()">Generar otro tema</button>
+        <div class="button-container">
+            <button onclick="window.location.reload()">Generar Patch</button>
+        </div>
     </div>
 </body>
 </html>
