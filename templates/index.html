@@ -3,108 +3,156 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Minimoog v4 Preset Generator</title>
+    <title>Rack de Sintetizadores - Entorno IC</title>
     <style>
-        body {
-            background-color: #222;
-            background-image: linear-gradient(#111 2px, transparent 2px), linear-gradient(90deg, #111 2px, transparent 2px);
-            background-size: 30px 30px;
-            color: #eee;
-            font-family: 'Courier New', Courier, monospace;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            margin: 0;
+        /* Estilos Globales */
+        body { 
+            margin: 0; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            height: 100vh; 
+            transition: background 0.4s ease;
+            font-family: sans-serif;
         }
-        .synth-panel {
-            background-color: #1a1a1a;
-            border: 12px solid #5c3a21; /* Borde de madera */
-            border-radius: 8px;
-            padding: 40px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.8), inset 0 0 20px rgba(0,0,0,0.5);
-            max-width: 600px;
-            width: 90%;
+        .container { 
+            text-align: center; 
+            padding: 40px; 
+            border-radius: 8px; 
+            width: 90%; 
+            max-width: 650px; 
+            box-shadow: 0 15px 35px rgba(0,0,0,0.6); 
+            transition: all 0.4s ease;
         }
-        h1 {
-            color: #d4af37; /* Dorado clásico */
-            text-align: center;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            border-bottom: 2px solid #333;
-            padding-bottom: 15px;
-            margin-top: 0;
+        h1 { margin-top: 0; letter-spacing: 2px; }
+        .back-btn { 
+            margin-top: 30px; 
+            display: inline-block; 
+            padding: 10px 20px; 
+            background: rgba(255,255,255,0.1); 
+            color: inherit; 
+            text-decoration: none; 
+            border-radius: 5px; 
+            transition: 0.2s;
         }
-        .screen {
-            background-color: #0a110a;
-            border: 4px solid #000;
-            border-radius: 5px;
-            padding: 20px;
-            margin: 25px 0;
-            box-shadow: inset 0 0 10px #000;
+        .back-btn:hover { background: rgba(255,255,255,0.2); }
+
+        /* --- DASHBOARD MENU --- */
+        body.dashboard { background: #121212; color: #fff; }
+        .dashboard .container { background: #1e1e1e; border: 2px solid #333; }
+        .synth-btn { 
+            display: inline-block; 
+            padding: 15px 30px; 
+            margin: 10px; 
+            border-radius: 6px; 
+            text-decoration: none; 
+            color: white; 
+            font-weight: bold; 
+            font-size: 1.1rem; 
+            cursor: pointer; 
+            transition: 0.2s transform; 
         }
-        .screen h2 {
-            color: #55ff55;
-            margin: 0 0 15px 0;
-            font-size: 1.5rem;
+        .synth-btn:hover { transform: scale(1.05); }
+        .btn-minimoog { background: #8e7322; color: #111; }
+        .btn-juno { background: #1f3b6c; border-bottom: 5px solid #d9381e; }
+        .btn-prophet { background: #111; border: 2px solid #ff3333; }
+        .btn-dx7 { background: #1c2321; color: #51e6b6; border: 1px solid #51e6b6; font-family: monospace; }
+
+        /* --- MINIMOOG V4 L00K --- */
+        body.minimoog { background: #111; }
+        .minimoog .container { 
+            background: #1a1a1a; 
+            border: 15px solid #5c3a21; /* Madera */
+            color: #d4af37; /* Dorado */
+            font-family: 'Courier New', monospace; 
         }
-        .parameter {
-            margin-bottom: 10px;
-            color: #88ff88;
-            font-size: 1.1rem;
+
+        /* --- JUNO 6 LOOK --- */
+        body.juno { background: #1a1b26; }
+        .juno .container { 
+            background: #2a2b36; 
+            border-top: 10px solid #d9381e; /* Franja Naranja/Roja */
+            border-bottom: 10px solid #28549e; /* Franja Azul */
+            color: #e0e0e0; 
+            font-family: Arial, Helvetica, sans-serif; 
         }
-        .label {
-            color: #55aa55;
+
+        /* --- PROPHET 5 LOOK --- */
+        body.prophet { background: #0a0a0a; }
+        .prophet .container { 
+            background: #151515; 
+            border-left: 25px solid #3e2723; /* Paneles laterales de madera */
+            border-right: 25px solid #3e2723; 
+            color: #ff3333; /* LEDs rojos */
+            font-family: 'Trebuchet MS', sans-serif; 
+        }
+
+        /* --- YAMAHA DX7 LOOK --- */
+        body.dx7 { background: #111615; }
+        .dx7 .container { 
+            background: #243431; /* Chasis marrón verdoso oscuro */
+            color: #51e6b6; /* Verde membrana/LCD */
+            font-family: monospace; 
+            border-radius: 0; 
+            border: 2px solid #000; 
+            box-shadow: inset 0 0 30px #111;
+        }
+        .lcd-screen {
+            background: #739c71;
+            color: #111;
+            padding: 15px;
             font-weight: bold;
             display: inline-block;
-            width: 140px;
-        }
-        .note {
-            margin-top: 20px;
-            padding-top: 15px;
-            border-top: 1px dashed #224422;
-            color: #66cc66;
-            font-style: italic;
-            font-size: 0.9rem;
-        }
-        .button-container {
-            text-align: center;
-        }
-        button {
-            background-color: #d4af37;
-            color: #111;
-            border: 2px solid #8e7322;
-            padding: 12px 25px;
-            font-size: 1.2rem;
-            font-weight: bold;
-            font-family: inherit;
-            cursor: pointer;
-            border-radius: 4px;
-            text-transform: uppercase;
-            box-shadow: 0 4px 0 #8e7322, 0 5px 10px rgba(0,0,0,0.5);
-            transition: all 0.1s;
-        }
-        button:active {
-            box-shadow: 0 0 0 #8e7322, 0 2px 5px rgba(0,0,0,0.5);
-            transform: translateY(4px);
+            margin-top: 15px;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
         }
     </style>
 </head>
-<body>
-    <div class="synth-panel">
-        <h1>Minimoog v4 Auto-Patch</h1>
+<body class="{{ model }}">
+    <div class="container">
         
-        <div class="screen">
-            <h2>{{ preset.nombre }}</h2>
-            <div class="parameter"><span class="label">OSCILADORES:</span> {{ preset.osciladores }}</div>
-            <div class="parameter"><span class="label">FILTRO:</span> {{ preset.filtro }}</div>
-            <div class="parameter"><span class="label">MODULACIÓN:</span> {{ preset.modulacion }}</div>
-            <div class="note">/// {{ preset.nota }}</div>
-        </div>
+        {% if model == 'dashboard' %}
+            <h1>Rack Central de Integración</h1>
+            <p>Seleccioná un equipo para cargar el entorno virtual de entrega:</p>
+            <div>
+                <a href="/?model=minimoog" class="synth-btn btn-minimoog">Minimoog v4</a>
+                <a href="/?model=juno" class="synth-btn btn-juno">Roland Juno-6</a>
+                <a href="/?model=prophet" class="synth-btn btn-prophet">Prophet-5</a>
+                <a href="/?model=dx7" class="synth-btn btn-dx7">Yamaha DX7</a>
+            </div>
+            
+        {% else %}
+            <h1>{{ model | upper }}</h1>
+            
+            {% if model == 'minimoog' %}
+                <h2>VCA / VCF ACTIVADOS</h2>
+                <p>/// OSCILADORES ANALÓGICOS CALENTANDO ///</p>
+                <p>Preparado para los leads de progresivo.</p>
+            {% endif %}
+            
+            {% if model == 'juno' %}
+                <h2 style="color: #66b2ff;">DCO SIGNAL ROUTING OK</h2>
+                <p>[ CHORUS I ] [ CHORUS II ] ACTIVADOS SIMULTÁNEAMENTE</p>
+            {% endif %}
+            
+            {% if model == 'prophet' %}
+                <h2>POLY MOD: ROUTED</h2>
+                <p>DESTINATION -> FREQ A | SOURCE -> FILTER ENV</p>
+                <p>Guardando patch en memoria de banco analógico...</p>
+            {% endif %}
+            
+            {% if model == 'dx7' %}
+                <div class="lcd-screen">
+                    ALG 16 &nbsp;&nbsp;&nbsp; OP 1 LVL 99<br>
+                    FREQ RATIO 1.00
+                </div>
+                <p>Síntesis FM Inicializada.</p>
+            {% endif %}
+
+            <br>
+            <a href="/" class="back-btn">← Volver al Rack Principal</a>
+        {% endif %}
         
-        <div class="button-container">
-            <button onclick="window.location.reload()">Generar Patch</button>
-        </div>
     </div>
 </body>
 </html>
