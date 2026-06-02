@@ -11,6 +11,12 @@ jobs:
     steps:
     - name: 1. Descargar el código (Checkout)
       uses: actions/checkout@v3
+      
+    - name: Bonus 1. Instalar Spectral (SDD)
+      run: npm install -g @stoplight/spectral-cli
+
+    - name: Bonus 2. Validar contrato de API con Spectral
+      run: spectral lint openapi.yaml
 
     - name: 2. Configurar el entorno Python
       uses: actions/setup-python@v4
