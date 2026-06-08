@@ -41,4 +41,8 @@ jobs:
       env:
         DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
       with:
-        args: 'Resultado de la integración: **${{ job.status }}**. El mecanismo de feedback funciona.'
+        args: |
+          Resultado de la Integración: **${{ job.status }}**
+          Autor: ${{ github.actor }}
+          Commit: "${{ github.event.head_commit.message }}"
+          Archivos afectados: ${{ join(github.event.head_commit.modified, ', ') }} ${{ join(github.event.head_commit.added, ', ') }}
