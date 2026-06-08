@@ -35,7 +35,7 @@ jobs:
       run: |
         docker build -t mi-app-demo .
 
-    - name: 6. Mecanismo de Feedback (Discord)
+    - name: 7. Mecanismo de Feedback (Discord)
       if: always()
       uses: Ilshidur/action-discord@master
       env:
@@ -45,4 +45,4 @@ jobs:
           Resultado de la Integración: **${{ job.status }}**
           Autor: ${{ github.actor }}
           Commit: "${{ github.event.head_commit.message }}"
-          Archivos afectados: ${{ join(github.event.head_commit.modified, ', ') }} ${{ join(github.event.head_commit.added, ', ') }}
+          Ver auditoría de archivos: https://github.com/${{ github.repository }}/commit/${{ github.sha }}
