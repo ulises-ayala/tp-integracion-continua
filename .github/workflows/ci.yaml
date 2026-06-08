@@ -10,7 +10,7 @@ jobs:
 
     steps:
     - name: 1. Descargar el código (Checkout)
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       
     - name: Bonus 1. Instalar Spectral (SDD)
       run: npm install -g @stoplight/spectral-cli
@@ -19,7 +19,7 @@ jobs:
       run: spectral lint openapi.yaml
 
     - name: 2. Configurar el entorno Python
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v5
       with:
         python-version: '3.9'
 
@@ -34,3 +34,11 @@ jobs:
     - name: 5. Build automatizada (Docker)
       run: |
         docker build -t mi-app-demo .
+
+    - name: 6. Mecanismo de Feedback (Discord)
+      if: always()
+      uses: Ilshidur/action-discord@master
+      env:
+        DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+      with:
+        args: 'Resultado de la integración: **${{ job.status }}**. El mecanismo de feedback funciona.'
