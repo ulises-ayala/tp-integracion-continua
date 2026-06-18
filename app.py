@@ -4,10 +4,9 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    # Obtiene el modelo de sintetizador de la URL (por defecto es 'dashboard')
     modelo = request.args.get('model', 'dashboard')
     
-    # Valida que no pongan cualquier cosa en la URL
+    # Es para que siempre entre en el dashboard si esta mal la URL
     modelos_permitidos = ['dashboard', 'minimoog', 'juno', 'prophet', 'dx7']
     if modelo not in modelos_permitidos:
         modelo = 'dashboard'

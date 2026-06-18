@@ -35,7 +35,7 @@ jobs:
       run: |
         docker build -t mi-app-demo .
 
-    - name: 7. Mecanismo de Feedback (Discord)
+    - name: 6. Mecanismo de Feedback (Discord)
       if: always()
       uses: Ilshidur/action-discord@master
       env:
