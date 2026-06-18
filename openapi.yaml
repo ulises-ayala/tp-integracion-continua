@@ -7,5 +7,5 @@ paths:
     get:
       summary: Retorna el saludo de prueba
       responses:
-        '200':
+        '404':
           description: OK
